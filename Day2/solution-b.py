@@ -16,7 +16,6 @@ shape_score = {
 total_score = 0
 
 for one_round in rounds:
-    score_of_round = 0
     opponent, outcome = one_round.strip().split(' ')
     total_score += shape_score[opponent][outcome] # the score for the shape we selected
     total_score += round_score[outcome] # the score for the outcome of the round

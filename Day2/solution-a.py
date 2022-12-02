@@ -21,7 +21,6 @@ def play_round(opponent, player):
     else: return 0
 
 for one_round in rounds:
-    score_of_round = 0
     opponent, player = one_round.strip().split(' ')
     total_score += shape[player] # the score for the shape we selected
     total_score += play_round(opponent, player) # the score for the outcome of the round
