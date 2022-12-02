@@ -15,14 +15,6 @@ shape_score = {
 
 total_score = 0
 
-def play_round(opponent, player):
-    if shape[opponent] == shape[player]:
-        return 3
-    difference = shape[opponent] - shape[player]
-    if (difference == -1 or difference == 2):
-        return 6
-    else: return 0
-
 for one_round in rounds:
     score_of_round = 0
     opponent, outcome = one_round.strip().split(' ')
