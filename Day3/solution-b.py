@@ -7,6 +7,20 @@ with open('input.txt') as file:
     for i in range(0, len(rucksacks), GROUP_NUM):
         groups.append(rucksacks[i:i+GROUP_NUM])
 
+def string_to_set(string):
+    char_set = set()
+    for char in string:
+        char_set.add(char)
+    return char_set
+
+def common_characters(strings):
+    i = len(strings)
+    common_set = common_characters((arrays[:i-1])) & string_to_set(arrays[i-1:]) 
+    common_string = ""
+    for ele in common_set:
+        common_string += str(ele)
+    return common_string
+
 def common_characters(array):
     MAX_NUM = 58 # unicode A - z
     a1 = [True] * MAX_NUM # array recording common characters

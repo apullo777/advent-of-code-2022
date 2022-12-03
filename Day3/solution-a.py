@@ -11,7 +11,7 @@ def string_to_set(string):
 
 def common_characters(s1, s2):
     common_set = s1.intersection(s2)
-    common_string =""
+    common_string = ""
     for ele in common_set:
         common_string += str(ele)
     return common_string
