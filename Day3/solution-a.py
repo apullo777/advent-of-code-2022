@@ -17,10 +17,13 @@ def common_characters(s1, s2):
     return common_string
 
 def priorities(type):
-    priority = ord(type) - ord("A")
-    if priority <= 25:
-        return priority + 27
-    else: return priority - 31
+    UPPER_CASE_NUM = 26
+    LOWER_CASE_NUM = 26 + 5
+    diff = ord(type) - ord("A")
+    # a-z: 1-26, A-Z: 27-52
+    if diff < UPPER_CASE_NUM: # upper case
+        return diff + UPPER_CASE_NUM + 1
+    else: return diff - LOWER_CASE_NUM # lower case
 
 total = 0
 for rucksack in rucksacks:
@@ -30,19 +33,3 @@ for rucksack in rucksacks:
     total += priorities(shared_type)
 
 print(total)
-
-
-
-    
-
-
-
-
-
- 
-
-
-
-
-
-

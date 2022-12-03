@@ -1,30 +1,35 @@
 # Part 2: find shared char among three lines and calculate the sum of priorities
 
 with open('input.txt') as file:
+    GROUP_NUM = 3
     rucksacks = file.read().split("\n")
     groups = []
-    for i in range(0, len(rucksacks), 3):
-        groups.append(rucksacks[i:i+3])
+    for i in range(0, len(rucksacks), GROUP_NUM):
+        groups.append(rucksacks[i:i+GROUP_NUM])
 
 def common_characters(array):
-    a1 = [True] * 58 # array recording common characters, unicode A - z
+    MAX_NUM = 58 # unicode A - z
+    a1 = [True] * MAX_NUM # array recording common characters
     for i in range(len(array)):
-        a2 = [False] * 58 # array recording what was seen in a string
+        a2 = [False] * MAX_NUM # array recording what was seen in a string
         for j in range(len(array[i])): 
             if (a1[ord(array[i][j]) - ord("A")]):  # character seen before
                 a2[ord(array[i][j]) - ord("A")] = True  # mark the character
-        for k in range(58): # copy the second array to the first
+        for k in range(MAX_NUM): # copy the second array to the first
             a1[k] = a2[k]
         
-    for i in range(58): # return common characters
+    for i in range(MAX_NUM): # return common characters
         if a1[i]:
             return chr(i + ord("A"))
 
 def priorities(type):
-    priority = ord(type) - ord("A")
-    if priority <= 25:
-        return priority + 27
-    else: return priority - 31
+    UPPER_CASE_NUM = 26
+    LOWER_CASE_NUM = 26 + 5
+    diff = ord(type) - ord("A")
+    # a-z: 1-26, A-Z: 27-52
+    if diff < UPPER_CASE_NUM: # upper case
+        return diff + UPPER_CASE_NUM + 1
+    else: return diff - LOWER_CASE_NUM # lower case
 
 total = 0
 for group in groups:
@@ -32,12 +37,3 @@ for group in groups:
     total += priorities(shared_type)
 
 print(total)
-
-
-
-
-
-    
-
-
-
