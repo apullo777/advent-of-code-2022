@@ -3,17 +3,18 @@
 with open('input.txt') as file:
     rucksacks = file.readlines()
 
-def find_duplicate(s1, s2):
-    d = {}
-    for char in s1:  # count frequency
-        if char in d:
-            d[char] += 1
-        else: 
-            d[char] = 1
+def string_to_set(string):
+    char_set = set()
+    for char in string:
+        char_set.add(char)
+    return char_set
 
-    for char in s2:
-        if char in d:
-            return char
+def common_characters(s1, s2):
+    common_set = s1.intersection(s2)
+    common_string =""
+    for ele in common_set:
+        common_string += str(ele)
+    return common_string
 
 def priorities(type):
     priority = ord(type) - ord("A")
@@ -24,11 +25,12 @@ def priorities(type):
 total = 0
 for rucksack in rucksacks:
     mid = len(rucksack) // 2
-    first, second = rucksack[:mid], rucksack[mid:]
-    shared_type = find_duplicate(first, second)
+    first, second = string_to_set(rucksack[:mid]), string_to_set(rucksack[mid:])
+    shared_type = common_characters(first, second)
     total += priorities(shared_type)
 
 print(total)
+
 
 
     
