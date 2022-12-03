@@ -7,23 +7,25 @@ with open('input.txt') as file:
     for i in range(0, len(rucksacks), GROUP_NUM):
         groups.append(rucksacks[i:i+GROUP_NUM])
 
-def string_to_set(string):
+def str_to_set(str):
     char_set = set()
-    for char in string:
+    for char in str:
         char_set.add(char)
     return char_set
 
+def set_to_str(set):
+    s = ""
+    for ele in set:
+        s += str(ele)
+    return s
+
 def common_characters(strings):
-    array = []
-    for string in strings:
-        array.append(string_to_set(string))
-    common_set = array[0] & array[1]
-    for i in range(len(array) - 2):
-        common_set = common_set & array[i+2]
-    common_string = ""
-    for ele in common_set:
-        common_string += str(ele)
-    return common_string
+    arr = []
+    for s in strings:
+        arr.append(str_to_set(s))
+    mid = len(arr) // 2
+    if len(arr) == 1: return arr[0]
+    return common_characters(arr[:mid]) & common_characters(arr[mid:])
 
 def priorities(type):
     UPPER_CASE_NUM = 26
@@ -36,7 +38,7 @@ def priorities(type):
 
 total = 0
 for group in groups:
-    shared_type = common_characters(group)
+    shared_type = set_to_str(common_characters(group))
     total += priorities(shared_type)
 
 print(total)
