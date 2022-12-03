@@ -14,27 +14,16 @@ def string_to_set(string):
     return char_set
 
 def common_characters(strings):
-    i = len(strings)
-    common_set = common_characters((arrays[:i-1])) & string_to_set(arrays[i-1:]) 
+    array = []
+    for string in strings:
+        array.append(string_to_set(string))
+    common_set = array[0] & array[1]
+    for i in range(len(array) - 2):
+        common_set = common_set & array[i+2]
     common_string = ""
     for ele in common_set:
         common_string += str(ele)
     return common_string
-
-def common_characters(array):
-    MAX_NUM = 58 # unicode A - z
-    a1 = [True] * MAX_NUM # array recording common characters
-    for i in range(len(array)):
-        a2 = [False] * MAX_NUM # array recording what was seen in a string
-        for j in range(len(array[i])): 
-            if (a1[ord(array[i][j]) - ord("A")]):  # character seen before
-                a2[ord(array[i][j]) - ord("A")] = True  # mark the character
-        for k in range(MAX_NUM): # copy the second array to the first
-            a1[k] = a2[k]
-        
-    for i in range(MAX_NUM): # return common characters
-        if a1[i]:
-            return chr(i + ord("A"))
 
 def priorities(type):
     UPPER_CASE_NUM = 26
