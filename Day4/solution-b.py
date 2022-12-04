@@ -1,4 +1,4 @@
-# Part 1: find how many pairs of intervals overlapping
+# Part 2: find how many pairs of intervals overlapping
 
 with open('input.txt') as file:
     pairs = file.readlines()
@@ -21,10 +21,8 @@ def is_zero(x):
         return True
     return False
 
-# There are three major cases of two intervals 
-# 1. fully containing
-# 2. partially overlaping
-# 3. non-overlapping
+# There are three major cases of two intervals: 
+# 1) fully containing 2) partially overlaping 3) non-overlapping
 # Since we already knew how to find case 1 in Part 1, our goal is to distinguish case 2 and 3
 # In cases where full inclusion has been excluded, if a partial overlap occurs,
 # regardless of whether one interval is on the left or right of the other, 
