@@ -15,8 +15,8 @@ def is_different_sign(num1, num2):
         return True
     return False
 
-def is_zero(num):
-    if num == 0:
+def is_zero(x):
+    if int(x) == 0:
         return True
     return False
 
@@ -31,6 +31,6 @@ fully_contain = 0
 for pair in pairs:
     interval_1, interval_2 = pair.strip().split(",")
     if (is_fully_contain(interval_1, interval_2)):
-        overlap += 1 
+        fully_contain += 1 
 
 print(fully_contain)
