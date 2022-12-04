@@ -1,4 +1,4 @@
-# Part 1: find how many pairs of intervals fully containing one another
+# Part 1: find how many pairs of intervals overlapping
 
 with open('input.txt') as file:
     pairs = file.readlines()
@@ -21,16 +21,20 @@ def is_zero(x):
         return True
     return False
 
-# there are three major cases of two intervals 
+# There are three major cases of two intervals 
 # 1. fully containing
 # 2. partially overlaping
 # 3. non-overlapping
-# Since we already knew how to find case 1 in Part 1, our goal is to distinguish the latter 2
+# Since we already knew how to find case 1 in Part 1, our goal is to distinguish case 2 and 3
 # In cases where full inclusion has been excluded, if a partial overlap occurs,
 # regardless of whether one interval is on the left or right of the other, 
-# the product of the differences between the upper and lower bounds of the two intervals,
-# should be different from its abosulte (different sgin or zero)
-# excluding these cases then we have non-overlapping
+# the product of the differences between the upper and lower bounds of the two intervals
+# should be different from its abosulte value (different sgin or zero)
+# for example, considering both [(2, 4), (3, 5)] and [(3, 5), (2, 4)]
+# the product of their differences are, respectively, (2-5)*(4-3) = -3 * 1 and (3-4)*(5-2) -1 * 3
+# these differences having different sign means partial overlap
+# we also need to consider cases like [(2, 4), (4, 6)] which also counts as overlapping (one difference is zero)
+# excluding these then we have non-overlapping cases (case 3)
 
 def check_diff(interval_1, interval_2, mode):
     if mode == "parallel":
