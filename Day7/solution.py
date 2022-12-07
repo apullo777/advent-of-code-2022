@@ -1,4 +1,5 @@
 import re
+import copy
 
 def filesystem_parser(data):
     GO_DOWN = "cd ([A-Za-z0-9]+)"
@@ -30,13 +31,15 @@ def filesystem_parser(data):
 with open('input.txt') as file:
     data = file.readlines()
 file_size_dict = filesystem_parser(data)
+size_list = map(lambda path: file_size_dict[path], file_size_dict)
+
 
 # Part 1: 
 MAX_SIZE = 100000
-size_list_1 = map(lambda path: file_size_dict[path], file_size_dict)
+size_list_1 = copy.deepcopy(size_list)
 print(sum(filter(lambda size: size <= MAX_SIZE, size_list_1)))
 
 # Part 2:
 MIN_DELETE_SPACE = (30000000 + file_size_dict["/"]) - 70000000 
-size_list_2 = map(lambda path: file_size_dict[path], file_size_dict)
+size_list_2 = copy.deepcopy(size_list)
 print(min(list(filter(lambda size: MIN_DELETE_SPACE < size, size_list_2))))
