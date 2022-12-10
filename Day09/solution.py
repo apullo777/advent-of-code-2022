@@ -24,33 +24,59 @@ def move(point, vector):
     x, y = x1 + x2, y1 + y2
     return [x, y]
 
+def is_diagonal(vector):
+    x, y = vector
+    return (x and y)
+
+def is_perpendicular(vector_1, vector_2):
+    x1, y1 = vector_1
+    x2, y2 = vector_2
+    if (x1 and y1) and (x2 and y2):
+        return (y1 / x1) * (y2 / x2) == -1
+    else: 
+        return (x1 * x2) == 0 and ( y1 * y2) == 0
+
+def is_parallel(vector_1, vector_2):
+    x1, y1 = vector_1
+    x2, y2 = vector_2
+    if (x1 and y1) and (x2 and y2):
+        return (y1 / x1) == (y2 / x2)
+    else: 
+        return (not x1 and not x2) or (not y1 and not y2)
+
+def find_45_adjacent(vector):
+    x, y = vector
+
+    if is_diagonal(vector):
+        return [(x, 0), (0, y)]
+
+    if not is_diagonal(vector) and vector != (0, 0):
+        if not x: return [(1, y), (-1, y)]
+        if not y: return [(x, 1), (x, -1)]
+
 def touch(tail, relative, direction):
-    if relative == (0, 0):  # overlapping
+    if relative == (0, 0):  # head and tail are overlapping
         return tail
 
-    # If the previous knot is moving in the same direction as the head,
-    # the current knot moves one position in that direction as well.
-    if relative == direction:
-        return move(tail, direction)
-
-    # If the previous knot is moving in the opposite direction of the head,
-    # the current knot does not move.
-    elif relative == (-direction[0], -direction[1]):
-        return tail
-
-    # If the previous knot is moving in a direction perpendicular to the direction of the head,
-    # the current knot moves one position in the direction of the previous knot.
-    elif relative[0] == 0 or relative[1] == 0:
-        return move(tail, relative)
-
-    # If the previous knot is moving in a diagonal direction with respect to the direction of the head,
-    # the current knot moves one position in the direction of the previous knot if the direction of the head is also diagonal.
-    # Otherwise, the current knot does not move.
-    else:
-        if abs(relative[0]) == abs(direction[0]):
+    elif is_diagonal(relative):  # head and tail are in diagonal position
+        if (direction == relative or 
+            direction in find_45_adjacent(relative)):
             return move(tail, relative)
-        else:
-            return tail
+
+        if relative == (-direction[0], direction[1]):
+            return move(tail, relative[1])
+
+        if relative == (direction[0], -direction[1]):
+            return move(tail, relative[0])
+
+    # head is on the same row or column as tail
+    else:
+        if direction == relative:
+            return move(tail, direction)
+        if direction in find_45_adjacent(relative):
+            return move(tail, relative)
+        else: return tail
+
 
 def execute_instruction(positions, direction, times, visited, mode):
     # Repeat the movement of the rope for the given number of times
