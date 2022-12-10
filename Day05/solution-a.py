@@ -1,7 +1,7 @@
 from string import ascii_uppercase
 import copy
 
-# Because we are reading the data from top to bottom,
+# Because we are reading the data from top to bottom. 
 # we are using an array to represent a stack 
 # with the first item of the array representing the top of the stack.
 def prepare_stack(stacks):
@@ -22,12 +22,13 @@ def execute_step(step, stacks, mode):
                 stacks[to-1].insert(0, stacks[fr-1].pop(0))
 
         if mode == '2': # CrateMover 9001
-            # We are first moving items from the bottom of the stack, rather than the top, 
+            # We are first adding items to the bottom of the stack, rather than the top, 
             # in order to maintain the original order of the items
             for num in range(no-1, -1, -1): #  reversing the order in which we are moving the items
                 stacks[to-1].insert(0, stacks[fr-1].pop(num))
 
     return ''.join(list(stack[0] for stack in stacks))            
+
 
 with open('input.text') as file:
     stacks, steps = file.read().split('\n\n')

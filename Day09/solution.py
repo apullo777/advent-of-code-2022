@@ -28,19 +28,29 @@ def touch(tail, relative, direction):
     if relative == (0, 0):  # overlapping
         return tail
 
-    # If the head and tail are on the same row or column,
-    # check if the head is moving in the same direction as the relative position
-    if not relative[0] or not relative[1]:
-        if relative == direction: 
-            return move(tail, direction)
-        else : return tail
+    # If the previous knot is moving in the same direction as the head,
+    # the current knot moves one position in that direction as well.
+    if relative == direction:
+        return move(tail, direction)
 
-    # If the head and tail are on diagonal positions,
-    # check if the relative position is on the same side as the direction of movement
+    # If the previous knot is moving in the opposite direction of the head,
+    # the current knot does not move.
+    elif relative == (-direction[0], -direction[1]):
+        return tail
+
+    # If the previous knot is moving in a direction perpendicular to the direction of the head,
+    # the current knot moves one position in the direction of the previous knot.
+    elif relative[0] == 0 or relative[1] == 0:
+        return move(tail, relative)
+
+    # If the previous knot is moving in a diagonal direction with respect to the direction of the head,
+    # the current knot moves one position in the direction of the previous knot if the direction of the head is also diagonal.
+    # Otherwise, the current knot does not move.
     else:
-        if (relative[0] == direction[0] or relative[1] == direction[1]):
+        if abs(relative[0]) == abs(direction[0]):
             return move(tail, relative)
-        else: return tail
+        else:
+            return tail
 
 def execute_instruction(positions, direction, times, visited, mode):
     # Repeat the movement of the rope for the given number of times
@@ -52,15 +62,14 @@ def execute_instruction(positions, direction, times, visited, mode):
         positions[0] = move(positions[0], direction)  # Update the head position by moving it in the given direction
         positions[1] = touch(positions[1], relative, direction) # Update the first knot position using the touch function
 
-        if mode == '2':  # If the mode is 2, update the other knot positions
-            # Set the direction of movement to the relative position of the first knot
-            direction = relative_position(positions[1], prev_tail) 
-            # Iterate over the other knots (knots 2 to 9)
-            for i in range(1, len(positions)-2):
-                relative = relative_position(prev_tail, positions[i+1]) # Calculate the relative position of the current knot from the perspective of the previous knot
-                prev_head, prev_tail = prev_tail, positions[i+1]  # Update the previous head and tail
-                positions[i+1] = touch(positions[i+1], relative, direction)
-                direction = relative_position(positions[i+1], prev_tail)
+        # Set the direction of movement to the relative position of the first knot
+        direction = relative_position(positions[1], prev_tail) 
+        # Iterate over the other knots (knots 2 to 9)
+        for i in range(1, len(positions)-2):
+            relative = relative_position(prev_tail, positions[i+1]) # Calculate the relative position of the current knot from the perspective of the previous knot
+            prev_head, prev_tail = prev_tail, positions[i+1]  # Update the previous head and tail
+            positions[i+1] = touch(positions[i+1], relative, direction)
+            direction = relative_position(positions[i+1], prev_tail)
 
         if positions[-1] not in visited:
             visited.append(positions[-1])
