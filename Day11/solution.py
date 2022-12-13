@@ -1,6 +1,6 @@
 import math
 
-with open('test.txt') as file:
+with open('input.txt') as file:
     data = file.read().split("\n\n")
 
 # Parse instructions for each monkey
@@ -44,24 +44,18 @@ def do_parser(do, item):
     if operand_2 == 'old':
         return op[operator](int(item), int(item))
 
-print(do_parser('old * old', 79)//3%13)
-
 def throw_item(monkeys, item, index):
-    item = item // 3
-    print(item)
     monkeys[index]['items'].append(item)
 
 def play_round(monkeys):
     for i in range(len(monkeys)):
         while(monkeys[i]['items']):
             monkeys[i]['count'] += 1
-            monkeys[i]['items'][0] = do_parser(monkeys[i]['do'], monkeys[i]['items'][0])
+            monkeys[i]['items'][0] = do_parser(monkeys[i]['do'], monkeys[i]['items'][0]) // 3
             if monkeys[i]['items'][0] % monkeys[i]['mod']:
                 throw_item(monkeys, monkeys[i]['items'].pop(0), monkeys[i]['false'])
             else: 
                 throw_item(monkeys, monkeys[i]['items'].pop(0), monkeys[i]['true'])
-
-print(monkeys[2]['items'][0])
 
 # Part 1:
 for _ in range(20):
@@ -69,11 +63,9 @@ for _ in range(20):
     play_round(monkeys)
     for monkey in monkeys:
         item.append(monkey['items'])
-    print(item)
 
 result_1 = []
 for monkey in monkeys:
     result_1.append(monkey['count'])
 
-print(result_1)
 print(math.prod(sorted(result_1)[-2:]))
