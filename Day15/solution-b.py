@@ -55,7 +55,9 @@ def find_gap(sensors):
             for point in intersection:
                 candidates[point] += 1
 
-    # Iterate over all candidates and return the first candidate that is not inside the coverage area of any sensor
+    # look for a point that is the intersection of the peripheries of as many sensors as possible.     
+    # such a point would be the most likely to be a gap in the sensor coverage, 
+    # since it would be the point where the least amount of sensors are providing coverage.
     for point in candidates:
         if candidates[point] >= 4:
             if not is_inside(sensors, *point):
