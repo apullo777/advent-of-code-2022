@@ -1,5 +1,6 @@
 from collections import defaultdict
 from itertools import combinations
+from time import time_ns
 import re
 
 def distance(sx, sy, bx, by):
@@ -65,4 +66,5 @@ def find_gap(sensors):
 
     return 0  # If no suitable candidate is found, return 0
 
-print(find_gap(sensors))
+start = time_ns()
+print(f"Part 2: {find_gap(sensors)} in {(time_ns()-start)/1e6}ms")
