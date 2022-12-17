@@ -47,20 +47,27 @@ def do_parser(do, item):
 def throw_item(monkeys, item, index):
     monkeys[index]['items'].append(item)
 
-def play_round(monkeys):
+def play_round(monkeys, M):
     for i in range(len(monkeys)):
         while(monkeys[i]['items']):
             monkeys[i]['count'] += 1
-            monkeys[i]['items'][0] = do_parser(monkeys[i]['do'], monkeys[i]['items'][0]) // 3
+            monkeys[i]['items'][0] = do_parser(monkeys[i]['do'], monkeys[i]['items'][0], monkeys[i]['mod'])
+            if M: monkeys[i]['items'][0] = monkeys[i]['items'][0] % M else: 
             if monkeys[i]['items'][0] % monkeys[i]['mod']:
                 throw_item(monkeys, monkeys[i]['items'].pop(0), monkeys[i]['false'])
             else: 
                 throw_item(monkeys, monkeys[i]['items'].pop(0), monkeys[i]['true'])
 
 # Part 1:
-for _ in range(20):
+mod = []
+for i in range(len(monkeys)):
+    mod.append((monkeys[i]['mod']))
+
+MOD = math.prod(mod)
+
+for _ in range(10000):
     item = []
-    play_round(monkeys)
+    play_round(monkeys, MOD)
     for monkey in monkeys:
         item.append(monkey['items'])
 
@@ -68,4 +75,5 @@ result_1 = []
 for monkey in monkeys:
     result_1.append(monkey['count'])
 
+print(result_1)
 print(math.prod(sorted(result_1)[-2:]))
